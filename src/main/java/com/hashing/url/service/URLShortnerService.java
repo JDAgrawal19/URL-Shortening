@@ -13,9 +13,11 @@ import java.time.LocalDateTime;
 public class URLShortnerService {
 
     private final URLShortnerRepository urlShortnerRepository;
+    private final KafkaProducerService kafkaProducerService;
 
-    public URLShortnerService(URLShortnerRepository urlShortnerRepository) {
+    public URLShortnerService(URLShortnerRepository urlShortnerRepository, KafkaProducerService kafkaProducerService) {
         this.urlShortnerRepository = urlShortnerRepository;
+        this.kafkaProducerService = kafkaProducerService;
     }
 
     public String createShortenedURL(String URL){
@@ -40,6 +42,7 @@ public class URLShortnerService {
             throw new RuntimeException("Link is Expired, Please Generate Again");
         urlEntity.setClickCount(urlEntity.getClickCount()+1);
         urlShortnerRepository.save(urlEntity);
+        kafkaProducerService.addMessageToTopic(urlEntity.getOriginalUrl());
         return urlEntity.getHashUrl();
     }
 
