@@ -1,13 +1,9 @@
 package com.hashing.url.controllers;
 
 import com.hashing.url.service.URLShortnerService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
 public class URLShortner {
 
     private final URLShortnerService urlShortnerService;
@@ -18,6 +14,11 @@ public class URLShortner {
 
     @PostMapping("/hasher")
     public String getHashedUrl(@RequestParam("url")String url){
-        return urlShortnerService.getShortenedURL(url);
+        return urlShortnerService.createShortenedURL(url);
+    }
+
+    @GetMapping("/{hashed_url}")
+    public String getOriginalUrl(@PathVariable String hashed_url){
+        return urlShortnerService.getOriginalURL(hashed_url);
     }
 }

@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 @Document(collection = "shortenedURL")
 public class UrlEntity {
     @Id
-    private String originalUrl;
     private String hashUrl;
+    private String originalUrl;
     private LocalDateTime createdAt;
+    private LocalDateTime expiredAt;
+    private Integer ClickCount;
 
     public String getOriginalUrl() {
         return originalUrl;
@@ -34,5 +36,21 @@ public class UrlEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(LocalDateTime expiredAt) {
+        this.expiredAt = expiredAt;
+    }
+
+    public Integer getClickCount() {
+        return ClickCount;
+    }
+
+    public void setClickCount(Integer clickCount) {
+        ClickCount = clickCount;
     }
 }
